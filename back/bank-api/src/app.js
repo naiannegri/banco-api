@@ -5,9 +5,8 @@ const cors = require('cors')
 const db = require('./database/mongooseConnect')
 const app = express()
 
-const pokemonRoutes = require('./routes/pokedexRoutes.js')
-const coachRoutes = require('./routes/coachRoutes')
-const colaboradorasRoutes = require('./routes/colaboradorasRoutes')
+const bankRoutes = require('./routes/bankRoutes.js')
+const usersRoutes = require('./routes/usersRoutes')
 
 // configuracao
 app.use(express.json())
@@ -25,8 +24,11 @@ app.use(function (req, res, next) {
     next()
 })
 
-app.use("/coach", coachRoutes);
-app.use("/pokemon", pokemonRoutes);
-app.use(colaboradorasRoutes)
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('../swagger/swagger_output.json');
+
+app.use("/nn", bankRoutes);
+app.use(usersRoutes)
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 module.exports = app;
