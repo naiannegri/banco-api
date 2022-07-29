@@ -1,5 +1,4 @@
 const Users = require("../models/usersModel");
-const BankAccount = require("../models/bankAccount");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JsonWebTokenError } = require("jsonwebtoken");
@@ -80,13 +79,18 @@ const updateUser = async(req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
 
-      Users.name = name || Users.npme;
-      Users.email = email || Users.email;
-      Users.cpf = cpf || Users.cpf;
-      Users.endereco = endereco || Users.endereco;
-      Users.telefone = telefone || Users.telefone;
+      findUser.nome = nome || findUser.nome;
+      findUser.email = email || findUser.email;
+      findUser.cpf = cpf || findUser.cpf;
+      findUser.endereco = endereco || findUser.endereco;
+      findUser.telefone = telefone || findUser.telefone;
 
-      const savedUser = await Users.save();
+      findUser.markModified("nome");
+      findUser.markModified("email");
+      findUser.markModified("cpf");
+      findUser.markModified("endereco");
+      findUser.markModified("telefone");
+      const savedUser = await findUser.save();
       res.status(200).json(savedUser);
     });
   } catch (error) {

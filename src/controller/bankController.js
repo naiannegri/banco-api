@@ -26,12 +26,12 @@ const doTransaction = async (req, res) => {
         findReceiver.bankAccount.balance = Number(Number(
           findReceiver.bankAccount.balance + amount)
         )
-          .toFixed(4)
+          .toFixed(2)
 ;
         getCurrentUser.bankAccount.balance = Number(Number(
           getCurrentUser.bankAccount.balance - amount)
         )
-          .toFixed(4);
+          .toFixed(2);
         getCurrentUser.transactions.push({
           amount: amount,
           sendTo: receiverId,
@@ -249,22 +249,18 @@ const doDeposit = async (req, res) => {
       if (err) {
         return res.status(403).send({ message: err.message });
       }
-      const { userId,amount } = req.body;
-      const getCurrentUser = await Users.findById(userId);
+      const { id } = req.params;
+      const { amount } = req.body;
+      const getCurrentUser = await Users.findById(id);
       if (getCurrentUser) {
-        console.log("current user", getCurrentUser);
-
- 
         getCurrentUser.bankAccount.balance = Number(Number(
-          getCurrentUser.bankAccount.balance + amount)
-        )
-          .toFixed(4);
+          getCurrentUser.bankAccount.balance) + Number(amount)).toFixed(2)
 
 
         getCurrentUser.markModified("bankAccount");
-        const savedReceiver = await findReceiver.save();
+        const savedReceiver = await getCurrentUser.save();
         res.status(200).json({ receiver: savedReceiver });
-      } else if (getCurrentUser.bankAccount.balance < amount) {
+      } else {
         res.status(500).json({ message: "User not found" });
       }
     });
