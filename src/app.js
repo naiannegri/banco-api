@@ -8,6 +8,9 @@ const app = express()
 const bankRoutes = require('./routes/bankRoutes.js')
 const usersRoutes = require('./routes/usersRoutes')
 
+cors(app, resources={"/*": {"origins": "*"}})
+
+
 // configuracao
 app.use(express.json())
 app.use(cors())
