@@ -10,8 +10,7 @@ router.get("/transactions/:id/:idTransaction", controller.getTransactionById)
 router.get("/:id/funds", controller.getFunds)
 router.post("/transfer", controller.doTransfer)
 router.delete("/transfer/:id/:idTransfer", controller.deleteTransfer)
+router.update("/deposit/:id", controller.doDeposit)
 
 
-// router.patch("update/:id", controller.updatePokemonById)
-// router.delete("/pokedex/:id", controller.deletePokemonById)
 module.exports = router
